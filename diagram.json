@@ -3,30 +3,32 @@
   "author": "Uri Shaked",
   "editor": "wokwi",
   "parts": [
-    { "type": "wokwi-arduino-uno", "id": "uno", "top": -57, "left": -0.6, "attrs": {} },
-    { "type": "chip-inverter", "id": "chip1", "top": -94.98, "left": 292.8, "attrs": {} },
+    { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": -57, "left": -0.6, "attrs": {} },
+    { "type": "chip-soil-sensor", "id": "soil1", "top": -94.98, "left": 292.8, "attrs": {} },
     {
-      "type": "wokwi-led",
-      "id": "led1",
-      "top": -168.25,
-      "left": 199.91,
-      "attrs": { "color": "red" }
+      "type": "board-ssd1306",
+      "id": "oled1",
+      "top": -524.86,
+      "left": 845.03,
+      "attrs": { "i2cAddress": "0x3c" }
     },
-    {
-      "type": "wokwi-led",
-      "id": "led2",
-      "top": -168.98,
-      "left": 256.43,
-      "attrs": { "color": "green" }
-    }
+    { "type": "wokwi-breadboard-half", "id": "bb1", "top": -281.4, "left": 559.6, "attrs": {} },
+    { "type": "chip-co2humiditytemp", "id": "chip1", "top": -488.58, "left": -408, "attrs": {} }
   ],
   "connections": [
-    [ "chip1:IN", "uno:2", "green", [] ],
-    [ "chip1:OUT", "led2:A", "blue", [] ],
-    [ "uno:GND.1", "led1:C", "black", [ "v0" ] ],
-    [ "uno:2", "led1:A", "green", [ "v0" ] ],
-    [ "uno:GND.1", "led2:C", "black", [ "v-55.43", "h154.13" ] ],
-    [ "uno:VIN", "chip1:VCC", "red", [ "v28.7", "h234.5", "v-240" ] ],
-    [ "chip1:GND", "uno:GND.3", "black", [ "h30.61", "v259.2", "h-259.2" ] ]
-  ]
+    [ "esp:3V3.2", "bb1:tp.1", "red", [ "h-38.45", "v259.2" ] ],
+    [ "esp:GND.3", "bb1:tn.25", "black", [ "h0" ] ],
+    [ "oled1:GND", "bb1:tn.21", "black", [ "v-28.8", "h-48" ] ],
+    [ "oled1:VCC", "bb1:tp.17", "red", [ "v-76.8", "h-9.45" ] ],
+    [ "oled1:SDA", "esp:8", "green", [ "v-115.2", "h-479.93", "v192" ] ],
+    [ "oled1:SCL", "esp:9", "green", [ "v-96", "h-479.7", "v48" ] ],
+    [ "uno:VIN", "soil1:VCC", "red", [ "v28.7", "h234.5", "v-240" ] ],
+    [ "soil1:GND", "uno:GND.3", "black", [ "h30.61", "v259.2", "h-259.2" ] ],
+    [ "soil1:AOUT", "uno:A0", "green", [ "v0", "h69.01", "v326.4", "h-86.4" ] ],
+    [ "bb1:tn.1", "chip1:GND", "black", [ "v-0.1", "h-84.8", "v134.4", "h-172.8", "v-57.6" ] ],
+    [ "esp:7", "soil1:AOUT", "green", [ "h-96.05", "v259.2", "h134.4", "v19.2" ] ],
+    [ "soil1:VCC", "bb1:tp.4", "red", [ "h-38.4", "v-96", "h230.4" ] ],
+    [ "bb1:tn.1", "soil1:GND", "black", [ "v-0.1", "h-84.8", "v134.4", "h-172.8", "v-57.6" ] ]
+  ],
+  "dependencies": {}
 }

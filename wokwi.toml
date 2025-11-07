@@ -1,8 +1,8 @@
 [wokwi]
 version = 1
-elf = 'test/blink/build/arduino.avr.uno/blink.ino.elf'
-firmware = 'test/blink/build/arduino.avr.uno/blink.ino.hex'
+elf = 'bin/esp3s3_simulation/firmware.elf'
+firmware = 'bin/esp3s3_simulation/firmware.bin'
 
 [[chip]]
-name = 'inverter'
-binary = 'dist/chip.wasm'
+name = 'soil-sensor'
+binary = 'custom-chips-src/custom-chips-bin/soil-sensor-chip.wasm'
