@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Inverter Chip example
 
 Example of a basic custom chip for [Wokwi](https://wokwi.com/).
@@ -17,3 +18,6 @@ If you want to make changes to the test project firmware, edit [test/blink/blink
 ## License
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more details.
+=======
+# Mushroom_Hydroponics_System
+>>>>>>> 55f16ca012512a2fe69340486802ae4b80a5f7b8
