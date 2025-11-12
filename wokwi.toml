@@ -6,3 +6,7 @@ firmware = 'bin/esp3s3_simulation/firmware.bin'
 [[chip]]
 name = 'soil-sensor'
 binary = 'custom-chips-src/custom-chips-bin/soil-sensor-chip.wasm'
+
+[[chip]]
+name = 'multi-gas-sensor'
+binary = 'custom-chips-src/custom-chips-bin/multi-gas-chip.wasm' 
