@@ -17,7 +17,7 @@ This project is a environmental control system designed to regulate $CO_2$, humi
 ## 💻 Development Environment & Build Settings
 The project is developed using the **Arduino IDE** targeting the **ESP32-S3 Dev Module**.
 
-![Arduino IDE Settings](images/Screenshot 2025-12-27 at 8.08.41 PM.png)
+![Arduino IDE Settings](/images/Screenshot 2025-12-27 at 8.08.41 PM.png)
 
 | Setting | Value |
 | :--- | :--- |
@@ -50,11 +50,7 @@ This project utilizes the ESP32-S3's built-in USB-JTAG peripheral. To troublesho
     * `target remote :3333` — Connect to hardware.
     * `monitor reset halt` — Pause CPU at start.
     * `break loop` — Set breakpoint at main logic.
-
-### 3. Critical Register Monitoring 🔍
-System reliability is verified by inspecting hardware registers directly in GDB:
-* **ENS160 Status**: Inspect `DEVICE_STATUS` ($0\times20$).
-* **Validity Flag Analysis**: If flag is `2` (0b10), the sensor is in **Initial Start-up** (1-hour burn-in); control logic is inhibited.
+    
 
 ## 🚀 Future Roadmap
 * ✅ **MVP Relay Matrix**: Implement **Hysteresis** triggers for Fan/Mister.
