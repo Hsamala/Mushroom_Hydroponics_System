@@ -17,7 +17,7 @@ This project is a  environmental control system designed to regulate $CO_2$, hum
 ## 💻 Development Environment & Build Settings
 The project is developed using the **Arduino IDE** targeting the **ESP32-S3 Dev Module**.
 
-![Arduino IDE Settings](images/Screenshot 2025-12-27 at 8.08.41 PM.png)
+![Arduino IDE Settings](/images/Screenshot 2025-12-27 at 8.08.41 PM.png)
 
 | Setting | Value |
 | :--- | :--- |
