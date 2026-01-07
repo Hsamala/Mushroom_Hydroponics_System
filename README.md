@@ -1,7 +1,7 @@
-# 🍄 Mushroom Growth Hydroponics System (V0.50)
-**An Automated Environmental Controller for Sensitive Mycology**
+# 🍄 Mushroom Growth Hydroponics System (V1.00)
+**An Automated Environmental Controller for Mycology**
 
-This project is a  environmental control system designed to regulate $CO_2$, humidity, and soil moisture for mushroom cultivation. Built on the **ESP32-S3**, it leverages JTAG debugging, real-time sensor validation, and non-blocking control logic to ensure a stable microclimate for high-yield growth.
+This project is a environmental control system designed to regulate $CO_2$, humidity, and soil moisture for mushroom cultivation. Built on the **ESP32-S3**, it leverages JTAG debugging, real-time sensor validation, and non-blocking control logic to ensure a stable microclimate for high-yield growth.
 
 
 ## 🛠 Currently Implemented & Working
