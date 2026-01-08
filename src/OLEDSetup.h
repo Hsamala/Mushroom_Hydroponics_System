@@ -18,6 +18,7 @@ void drawCO2(uint16_t co2Value);
 void drawWarmupCo2();
 void drawInitCo2();
 void invalidCo2();
+void printScreen(char text[]);
 void drawHumidity(float humidity);
 void drawNavDots(int activePage);
 void drawTemperature(float temp);

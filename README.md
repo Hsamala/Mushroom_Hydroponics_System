@@ -5,14 +5,31 @@ This project is a environmental control system designed to regulate $CO_2$, humi
 
 
 ## 🛠 Currently Implemented & Working
-* **Dual-Core JTAG Debugging**: Established a stable debugging environment using **OpenOCD** and **xtensa-esp-elf-gdb** to troubleshoot fatal signals and memory segmentation faults.
-* **Intelligent Gas Sensing**: Integrated the **ScioSense ENS160** using the I2C bus.
-    * Implemented logic to monitor the `DEVICE_STATUS` register ($0\times20$).
-    * System recognizes and handles **Initial Start-up (Validity Flag 2)** and **Warm-up (Validity Flag 1)** phases to prevent acting on unstable data.
-* **Capacitive Soil Sensing**: Developed a calibration-based analog reading system.
-    * Mapped raw 12-bit ADC values to moisture percentages using empirical data ($Dry \approx 3500$, $Wet \approx 1600$).
-* **Multi-State OLED Interface**: Created a non-blocking UI that cycles through system states (CO2, Temp, Humidity, Moisture) every 10 seconds without stopping the main control loop.
-* **I2C Bus Management**: Integrated an I2C scanner to verify hardware connectivity during boot.
+
+### ☁️ IoT & Cloud Connectivity (New!)
+* **Blynk IoT Integration:** Established a robust, non-blocking bidirectional link between the ESP32-S3 and the Blynk Cloud.
+* **Dual-Speed Task Scheduling:** Replaced manual `millis()` logic with `BlynkTimer` to manage high-frequency OLED UI refreshes (5s) and low-frequency cloud data synchronization (3m).
+
+### 🔋 Power & Hardware Architecture
+* **High-Current Power Rail:** Verified system stability using a **12V 600mA** external power supply via MB102 Breadboard Dedicated Power Supply Module Compatible 5V 3.3V Adjustable Step-down Module. 
+* **Stress-Tested Stability:** Successfully handled peak current draws from simultaneous WiFi radio handshakes and OLED full-pixel refreshes without brownouts.
+
+### 📊 Sensors & UI
+* **Intelligent Gas Sensing:** Integrated the **ScioSense ENS160**. Implemented logic to monitor the `DEVICE_STATUS` register to handle Initial Start-up and Warm-up phases, ensuring data validity.
+* **Multi-State OLED Interface:** Created a non-blocking UI that cycles through CO2, Temp, Humidity, and Moisture every 10 seconds.
+* **Capacitive Soil Sensing:** Calibration-based analog system mapping raw 12-bit ADC values to moisture percentages (Dry ≈ 3500, Wet ≈ 1600).
+
+---
+
+## 🔌 Power & Connectivity Details
+
+To handle the high current demands of pumps, fans, and misters, the system utilizes a dedicated power rail:
+
+
+* **Power Source:** 12V 600mA External DC Supply. MB102 Breadboard Dedicated Power Supply Module, steps the 12V down into a usuable form to not burn out the ESP32-S3-SuperMini.
+* **Regulation:** ESP32-S3 onboard LDO handles logic; High-current rail bypassed to the Relay Matrix. 
+* **Connectivity:** 2.4GHz WiFi (Blynk Protocol).
+* **Data Strategy:** 3-minute polling interval to optimize Blynk message quotas (200k/month limit).
 
 ## 💻 Development Environment & Build Settings
 The project is developed using the **Arduino IDE** targeting the **ESP32-S3 Dev Module**.

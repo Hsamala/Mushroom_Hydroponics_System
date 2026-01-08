@@ -26,6 +26,15 @@ bool setupDisplay(TwoWire& w) {
 
 }
 
+void printScreen(char text[]) {
+  display->clearDisplay();
+  display->setTextSize(1);
+  display->setTextColor(WHITE);
+  display->setCursor(0, 0);
+  display->print(text);
+  display->display();
+}
+
 void drawInitCo2() {
   display->clearDisplay();
   display->setTextColor(SSD1306_WHITE);
