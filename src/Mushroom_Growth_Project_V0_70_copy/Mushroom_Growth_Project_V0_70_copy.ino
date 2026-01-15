@@ -3,8 +3,8 @@
 #define BLYNK_TEMPLATE_ID           "TMPL28D24NlX3"
 #define BLYNK_TEMPLATE_NAME         "Mushroom Hydroponics Chamber"
 #define BLYNK_AUTH_TOKEN            "D90PEM_WTvVfeE_OT91LTXlH85fYwN8k"
-char ssid[] = "HHESS_EERO";
-char pass[] = "D0lly1975!";
+char ssid[] = "HHESS";
+char pass[] = "!";
 
 #include <Wire.h>
 #include <WiFi.h>
