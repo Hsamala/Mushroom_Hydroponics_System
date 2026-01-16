@@ -1,7 +1,6 @@
 #ifndef OLEDSetup_H
 #define OLEDSetup_H
 
-#include <Adafruit_SSD1306.h>
 #include <memory>
 
 // --- OLED SCREEN CONFIGURATION ---
@@ -11,7 +10,9 @@
 #define SCREEN_ADDRESS 0x3C
 
 
-extern std::unique_ptr<Adafruit_SSD1306> display;
+class Adafruit_SSD1306;
+class TwoWire;
+
 
 bool setupDisplay(TwoWire& w);
 void drawCO2(uint16_t co2Value);

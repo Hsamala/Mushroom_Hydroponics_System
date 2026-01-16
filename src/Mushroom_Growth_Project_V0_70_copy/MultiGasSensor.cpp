@@ -1,6 +1,6 @@
 #include "MultiGasSensor.h"
-#include <ScioSense_ENS16x.h>  
 #include <Adafruit_AHTX0.h>
+#include <ScioSense_ENS16x.h> 
 
 ENS160 ens16x; 
 Adafruit_AHTX0 aht;
