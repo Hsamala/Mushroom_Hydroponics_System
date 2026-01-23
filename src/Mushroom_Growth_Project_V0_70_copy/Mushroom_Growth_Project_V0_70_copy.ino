@@ -12,10 +12,6 @@ char pass[] = "!";
 
 #include "OLEDSetup.h"
 #include "MultiGasSensor.h"
-#include "RelayControl.h"
-
-// -- DEBUG MODE: Remove Before Flight -- 
-bool isDebugMode = true;
 
 // --- PIN DEFINITIONS ---
 #define SOIL_PIN   0  // Analog pin for the soil sensor
@@ -39,9 +35,6 @@ BlynkTimer timer;
 uint16_t co2Level;
 float temperature, humidity;
 int soilMoisture, state = 0;
-
-// -- Relays Turned On ---
-bool isFanOn, isMisterOn;
 
 byte scanI2CBus() {
   byte error, address;
@@ -84,18 +77,12 @@ void sendData2Blynky() {
   Blynk.virtualWrite(V4, temperature);
   Blynk.virtualWrite(V5, humidity);
   Blynk.virtualWrite(V6, soilMoisture);
-  Blynk.virtualWrite(V0, isFanOn);
-  Blynk.virtualWrite(V1, isMisterOn);
 }
 
-BLYNK_WRITE(V10) { if(isDebugMode) co2Level = param.asInt(); }
-BLYNK_WRITE(V11) { if(isDebugMode) temperature = param.asFloat(); }
-BLYNK_WRITE(V12) { if(isDebugMode) humidity = param.asFloat(); }
-
-void SensorStateMachine() {
+void OLEDStateMachine() {
   switch(state) {
         case 0:
-          if (!isDebugMode) co2Level = readCO2(Serial);
+          co2Level = readCO2(Serial);
           if(co2Level == 1001) {
             drawWarmupCo2();
             break;
@@ -110,16 +97,16 @@ void SensorStateMachine() {
             break;
           } 
         case 1:
-          if (!isDebugMode) temperature = readTemp(Serial);
+          temperature = readTemp(Serial);
           drawTemperature(temperature);
           Serial.println(temperature);
           break;
         case 2:
-          if (!isDebugMode) humidity = readHumidity(Serial);
+          humidity = readHumidity(Serial);
           drawHumidity(humidity);
           break;
         case 3:
-          if (!isDebugMode) soilMoisture = readSoilSensor(Serial);
+          soilMoisture = readSoilSensor(Serial);
           drawSoilMoisture(soilMoisture);
           break;
   }
@@ -130,15 +117,18 @@ void setup() {
   // 1. Start the Serial Monitor for debugging
   Serial.begin(115200); // Wait for native USB serial to connect
   // 2. Initialize the I2C bus with your custom pins
+<<<<<<< HEAD
   if (Wire.begin(I2C_SDA, I2C_SCL)) {
     Serial.println("I2C bus initialized successfully!");
 } else {
     Serial.println("I2C initialization failed. Check your pin assignments.");
 }
+=======
+  Wire.begin(I2C_SDA, I2C_SCL);
+>>>>>>> parent of 5cf2e7d (In Progess Relay Integration)
   delay(200);
 
-  Serial.println("Starting program.... Relay Version");
-  scanI2CBus();
+  Serial.println("Starting program....");
 
   if(!setupDisplay(Wire)) {
     for(;;);
@@ -166,10 +156,7 @@ void setup() {
   char BlynkOk[] = "Connection to Blynk is stable :)";
   printScreen(BlynkOk);
 
-  setupRelays();
-
-  timer.setInterval(10000L, SensorStateMachine);
-  timer.setInterval(190000L, relayControl);
+  timer.setInterval(10000L, OLEDStateMachine);
   timer.setInterval(241000L, sendData2Blynky);
 
   delay(2000);
