@@ -1,0 +1,20 @@
+{
+  "name": "Capacitive Soil Sensor",
+  "author": "Herald Samala",
+  "pins": [
+    "VCC",
+    "GND",
+    "AOUT"
+  ],
+  "controls": [
+    {
+      "id": "moisture",
+      "label": "Soil Moisture",
+      "type": "range",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    }
+  ]
+}

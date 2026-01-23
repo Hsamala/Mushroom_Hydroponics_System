@@ -1,0 +1,39 @@
+{
+  "name": "multi-gas-sensor",
+  "author": "Herald Samala",
+  "pins": [
+    "VCC",
+    "GND",
+    "SCL",
+    "SDA" 
+  ],
+  "controls": [
+    {
+      "id": "humidity",
+      "label": "Humidity (%)",
+      "type": "range",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 20
+    }, 
+    {
+      "id": "co2",
+      "label": "CO2 (ppm)",
+      "type": "range",
+      "min": 400,
+      "max": 5000,
+      "step": 100,
+      "default": 700
+    }, 
+    {
+      "id": "oxygen",
+      "label": "Oxygen (%)",
+      "type": "range",
+      "min": 0,
+      "max": 25,
+      "step": 1,
+      "default": 10 
+    }
+  ]
+}

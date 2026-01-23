@@ -130,7 +130,7 @@ void setup() {
   // 1. Start the Serial Monitor for debugging
   Serial.begin(115200); // Wait for native USB serial to connect
   // 2. Initialize the I2C bus with your custom pins
-  if (Wire.begin(I2C_SDA, I2C_SCL)) {
+  if (Wire.begin(SDA_PIN, SCL_PIN)) {
     Serial.println("I2C bus initialized successfully!");
 } else {
     Serial.println("I2C initialization failed. Check your pin assignments.");
