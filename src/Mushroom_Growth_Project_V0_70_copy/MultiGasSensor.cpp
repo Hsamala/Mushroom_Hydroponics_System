@@ -54,6 +54,7 @@ uint16_t readCO2(Stream& s) {
       return 1003;
     }
   }
+  return 1003;
 }
 
 
