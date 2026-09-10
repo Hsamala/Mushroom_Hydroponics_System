@@ -1,0 +1,5 @@
+--flash-mode dio --flash-freq 40m --flash-size 4MB
+0x1000 Collect_Images_for_EdgeImpulse.ino.bootloader.bin
+0x8000 Collect_Images_for_EdgeImpulse.ino.partitions.bin
+0xe000 boot_app0.bin
+0x10000 Collect_Images_for_EdgeImpulse.ino.bin

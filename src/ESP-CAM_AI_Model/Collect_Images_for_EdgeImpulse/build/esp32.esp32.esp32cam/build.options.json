@@ -1,0 +1,10 @@
+{
+  "additionalFiles": "",
+  "builtInLibrariesFolders": "/Users/heraldsamala/Library/Arduino15/libraries",
+  "compiler.optimization_flags": "-Og -g3",
+  "customBuildProperties": "",
+  "fqbn": "esp32:esp32:esp32cam:CPUFreq=240,FlashFreq=40,FlashMode=qio,PartitionScheme=min_spiffs,DebugLevel=none,EraseFlash=none",
+  "hardwareFolders": "/Users/heraldsamala/Library/Arduino15/packages/esp32/hardware/esp32/3.3.11,/Users/heraldsamala/Library/Arduino15/packages/esp32/hardware/esp32/3.3.11",
+  "otherLibrariesFolders": "/Users/heraldsamala/Documents/Arduino/libraries",
+  "sketchLocation": "/Users/heraldsamala/Documents/ASUSolarSPELLStuff/Mushroom_Hydroponics_System/src/ESP-CAM_AI_Model/Collect_Images_for_EdgeImpulse"
+}
