@@ -26,7 +26,7 @@ bool setupDisplay(TwoWire& w) {
 
 }
 
-void printScreen(char text[]) {
+void printScreen(const char text[]) {
   display->clearDisplay();
   display->setTextSize(1);
   display->setTextColor(WHITE);

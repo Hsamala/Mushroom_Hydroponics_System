@@ -30,7 +30,6 @@ bool sensorSetup(TwoWire& w, Stream& s) {
     return false;
   }
   ens16x.startStandardMeasure();
-  s.println("ENS160 and AHT11 sensor ready to go");
 
   pinMode(SOIL_PIN, INPUT);
   return true;
@@ -71,7 +70,7 @@ float readTemp(Stream& s) {
 
 float readHumidity(Stream& s) {
   sensors_event_t humidity;
-  if(aht.getEvent(NULL, &humidity)) {
+  if(aht.getEvent(&humidity, NULL)) {
     return humidity.relative_humidity; 
   } else {
     s.println("Humidity polling went haywire, check delays/getEvent checks");

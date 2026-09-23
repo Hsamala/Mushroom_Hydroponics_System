@@ -3,9 +3,9 @@
 
 #include <Arduino.h>
 
-#define FAN_RELAY_PIN 9 
-#define MISTER_PIN 10
-#define MISTER_PIN2 11
+#define FAN_RELAY_PIN 11 
+#define MISTER_PIN 9
+#define MISTER_PIN2 10
 #define RELAY_ON  LOW
 #define RELAY_OFF HIGH
 
