@@ -12,12 +12,11 @@
 extern uint16_t co2Level;
 extern float temperature, humidity;
 extern int soilMoisture;
-extern bool isFanOn, isMisterOn;
+extern bool pinsDetected;
 
 void setupRelays();
 template <typename T>
 int calc_withinRange(T currentReading, T targetReading, T margin); 
 void relayControl();
-void syncBlynk(bool fan, bool mister);
 
 #endif

@@ -1,4 +1,4 @@
-//------ BLYNK IMPORTANT --- 
+//------ BLYNK INFORMATION --- 
 #define BLYNK_PRINT Serial 
 #define BLYNK_TEMPLATE_ID           "TMPL28D24NlX3"
 #define BLYNK_TEMPLATE_NAME         "Mushroom Hydroponics Chamber"
@@ -26,8 +26,9 @@ IPAddress SECONDARY_DNS(8, 8, 4, 4);
 #include "MultiGasSensor.h"
 #include "RelayControl.h"
 
-// -- DEBUG MODE: Remove Before Flight -- 	     	      <
+// -- Important Boolean - Make sure to set isDebugMode to false for production -- 	     	      <
 bool isDebugMode = false;
+bool pinsDetected = false;
 
 // --- PIN DEFINITIONS ---
 #define SOIL_PIN   8  // Analog pin for the soil sensor
@@ -55,8 +56,6 @@ float temperature = 0.0;
 float humidity = 0.0;
 int soilMoisture = 0, state = 0;
 
-// -- Relays Turned On ---			     	      <
-bool isFanOn, isMisterOn;
 
 byte scanI2CBus() {
   byte error, address;
@@ -93,15 +92,18 @@ byte scanI2CBus() {
   return nDevices;
 }
 
+BLYNK_CONNECTED() {
+  Blynk.syncVirtual(V2);
+}
 
 void sendData2Blynky() {
   Blynk.virtualWrite(V3, co2Level);
   Blynk.virtualWrite(V4, temperature);
   Blynk.virtualWrite(V5, humidity);
   Blynk.virtualWrite(V6, soilMoisture);
-  syncBlynk(isFanOn, isMisterOn);
 }
 
+BLYNK_WRITE(V2) { pinsDetected = param.asInt() == 1; }
 BLYNK_WRITE(V10) { if(isDebugMode) co2Level = param.asInt(); }
 BLYNK_WRITE(V11) { if(isDebugMode) temperature = param.asFloat(); }
 BLYNK_WRITE(V12) { if(isDebugMode) humidity = param.asFloat(); }
@@ -210,9 +212,9 @@ void setup() {
   ElegantOTA.begin(&otaServer);
   otaServer.begin();
 
-  timer.setInterval(10000L, OLEDStateMachine);
-  timer.setInterval(11000L, relayControl);
-  timer.setInterval(241000L, sendData2Blynky);
+  //timer.setInterval(10000L, OLEDStateMachine);
+  //timer.setInterval(11000L, relayControl);
+  //timer.setInterval(241000L, sendData2Blynky);
 
   delay(2000);
 }
@@ -222,4 +224,15 @@ void loop() {
   Blynk.run();
   timer.run();
   ElegantOTA.loop();
+  static bool hasPrintedPinState = false;
+  static bool lastPinsDetected = false;
+
+  if (!hasPrintedPinState || pinsDetected != lastPinsDetected) {
+    hasPrintedPinState = true;
+    lastPinsDetected = pinsDetected;
+
+    char pinStatus[32];
+    snprintf(pinStatus, sizeof(pinStatus), "Pins detected:\n%s", pinsDetected ? "YES" : "NO");
+    printScreen(pinStatus);
+  }
 }

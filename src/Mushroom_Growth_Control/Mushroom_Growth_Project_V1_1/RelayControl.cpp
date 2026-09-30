@@ -29,11 +29,9 @@ void relayControl() {
   int co2Event = calc_withinRange<unsigned int>(co2Level, 1000, 50); 
   if (co2Event == 2) {
     digitalWrite(FAN_RELAY_PIN, RELAY_ON);
-    isFanOn = true;// ON
   }  
   if (co2Event == 1) {
     digitalWrite(FAN_RELAY_PIN, RELAY_OFF);
-    isFanOn = false; // OFF
   }  
 
   // --- 2. MISTER LOGIC (Low Trigger: ON at Lower Limit) ---
@@ -42,15 +40,10 @@ void relayControl() {
     digitalWrite(MISTER_PIN, RELAY_ON);
     digitalWrite(MISTER_PIN2, RELAY_ON);
     digitalWrite(FAN_RELAY_PIN, RELAY_OFF);
-    isMisterOn = true; // ON
-    isFanOn = false; // OFF
   } 
   if (humEvent == 2) {
     digitalWrite(MISTER_PIN, RELAY_OFF);
     digitalWrite(MISTER_PIN2, RELAY_OFF); 
     digitalWrite(FAN_RELAY_PIN, RELAY_ON);
-    isMisterOn = false;// OFF
-    isFanOn = true; // ON
   } 
-  syncBlynk(isFanOn, isMisterOn);
 }
