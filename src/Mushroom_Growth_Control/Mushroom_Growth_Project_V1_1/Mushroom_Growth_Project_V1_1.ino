@@ -235,10 +235,4 @@ void loop() {
   Blynk.run();
   timer.run();
   ElegantOTA.loop();
-
-  // Option B: Copy it safely into your own modifiable char array
-  char macBuffer[18]; // 17 characters + 1 null terminator
-  WiFi.macAddress().toCharArray(macBuffer, sizeof(macBuffer));
-  printScreen(macBuffer); 
-
 }

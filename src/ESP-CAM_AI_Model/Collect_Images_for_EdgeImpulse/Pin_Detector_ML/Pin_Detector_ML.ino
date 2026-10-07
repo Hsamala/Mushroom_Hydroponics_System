@@ -31,14 +31,13 @@ WebServer otaServer(8080);
 bool pinDetectedState = false;
 unsigned long lastPinDetectionToggleMs = 0;
 const unsigned long PIN_DETECTION_TOGGLE_INTERVAL_MS = 5000;
- 
-uint8_t receiverMac[] = {0xD0, 0xCF, 0x13, 0x07, 0xC0, 0xA4};
 
 void updatePinDetectionToggle() {
   unsigned long now = millis();
   if (now - lastPinDetectionToggleMs < PIN_DETECTION_TOGGLE_INTERVAL_MS) {
     return;
   }
+  
 
   lastPinDetectionToggleMs = now;
   pinDetectedState = !pinDetectedState;
@@ -54,12 +53,24 @@ void setup() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   WiFi.setHostname(HOSTNAME);
-  
-   if (!WiFi.config(LOCAL_IP, GATEWAY, SUBNET, PRIMARY_DNS, SECONDARY_DNS)) {
+  if (!WiFi.config(LOCAL_IP, GATEWAY, SUBNET, PRIMARY_DNS, SECONDARY_DNS)) {
         Serial.println("Static IP configuration failed");
-   }
+  }
 
-   setupEspNowTransmitter();
+  Serial.print("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+  Serial.println();
+
+  Serial.print("Connected. IP address: ");
+  Serial.println(WiFi.localIP());
+
+  Serial.print("WiFi channel after connect: ");
+  Serial.println(WiFi.channel());
+
+  setupEspNowTransmitter();
 
   /* Connect to WiFi
   while (!wifi.connect().isOk()) {
@@ -107,6 +118,8 @@ void loop() {
 
     testPinsDetected = !testPinsDetected;
     sendPinsDetected(testPinsDetected);
+    Serial.print("Sent Pins Detected: ");
+    Serial.println(testPinsDetected);
   }
 
   // Required by ElegantOTA & Handle OTA server requests

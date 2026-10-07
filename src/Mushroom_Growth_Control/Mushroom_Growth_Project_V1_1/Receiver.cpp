@@ -11,7 +11,7 @@ void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *incomingData, in
   memcpy(&msg, incomingData, sizeof(msg));
 
   pinsDetected = msg.pinsDetected;
-  bool newPinDetectionMessage = true;
+  newPinDetectionMessage = true;
 
   /* Maybe find you can write to Blynk V2 pin later on...*/
   //Serial.print("ESP-NOW received pinsDetected = ");

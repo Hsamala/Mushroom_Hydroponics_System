@@ -1,14 +1,6 @@
 #include "Transmitter.h"
 
-void onEspNowSend(const esp_now_send_info_t *txInfo, esp_now_send_status_t status) {
-  Serial.print("ESP-NOW send status: ");
-
-  if (status == ESP_NOW_SEND_SUCCESS) {
-    Serial.println("SUCCESS");
-  } else {
-    Serial.println("FAILED");
-  }
-}
+uint8_t receiverMac[] = {0xD0, 0xCF, 0x13, 0x07, 0xC0, 0xA4};
 
 bool setupEspNowTransmitter() { 
   Serial.print("Transmitter STA MAC: ");
@@ -27,11 +19,13 @@ bool setupEspNowTransmitter() {
   peerInfo.channel = WiFi.channel();
   peerInfo.encrypt = false;
   // register first peer
-  memcpy(peerInfo.peer_addr, broadcastAddress, 6);
+  memcpy(peerInfo.peer_addr, receiverMac, 6);
   if (esp_now_add_peer(&peerInfo) != ESP_OK) {
     Serial.println("Failed to add peer");
-    return;
+    return false;
   }
+
+  return true;
 
 }
 
