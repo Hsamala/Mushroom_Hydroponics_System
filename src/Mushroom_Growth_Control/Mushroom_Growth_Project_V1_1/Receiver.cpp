@@ -10,18 +10,18 @@ void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *incomingData, in
   PinDetectionMessage msg;
   memcpy(&msg, incomingData, sizeof(msg));
 
+
   pinsDetected = msg.pinsDetected;
   newPinDetectionMessage = true;
-
-  /* Maybe find you can write to Blynk V2 pin later on...*/
-  //Serial.print("ESP-NOW received pinsDetected = ");
-  //Serial.println(pinsDetected ? "true" : "false");
+  /* ------ Testing code for ESP-NOW transmition ---- */
+  /*
   if (newPinDetectionMessage) {
     newPinDetectionMessage = false;
     char pinStatus[32];
     snprintf(pinStatus, sizeof(pinStatus), "Pins detected:\n%s", pinsDetected ? "YES" : "NO");
     printScreen(pinStatus);
   } 
+  */
 }
 
 bool setupEspNowReceiver() {

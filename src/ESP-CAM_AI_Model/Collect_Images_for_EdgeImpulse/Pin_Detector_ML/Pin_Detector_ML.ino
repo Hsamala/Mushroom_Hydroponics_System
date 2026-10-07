@@ -111,6 +111,9 @@ void setup() {
 void loop() {
   static bool testPinsDetected = false;
   //Serial.println(pinDetectedState);
+
+  /*----- ESP-NOW Test Baseline ------ */
+  /*
   static unsigned long lastSendMs = 0;
 
   if (millis() - lastSendMs >= 5000) {
@@ -120,7 +123,7 @@ void loop() {
     sendPinsDetected(testPinsDetected);
     Serial.print("Sent Pins Detected: ");
     Serial.println(testPinsDetected);
-  }
+  } */
 
   // Required by ElegantOTA & Handle OTA server requests
   otaServer.handleClient();

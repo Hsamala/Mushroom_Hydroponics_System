@@ -223,9 +223,9 @@ void setup() {
   ElegantOTA.begin(&otaServer);
   otaServer.begin();
 
-  //timer.setInterval(10000L, OLEDStateMachine);
-  //timer.setInterval(11000L, relayControl);
-  //timer.setInterval(241000L, sendData2Blynky);
+  timer.setInterval(10000L, OLEDStateMachine);
+  timer.setInterval(11000L, relayControl);
+  timer.setInterval(241000L, sendData2Blynky);
 
   delay(2000);
 }
