@@ -25,10 +25,12 @@ IPAddress SECONDARY_DNS(8, 8, 4, 4);
 #include "OLEDSetup.h"
 #include "MultiGasSensor.h"
 #include "RelayControl.h"
+#include "Receiver.h"
 
 // -- Important Boolean - Make sure to set isDebugMode to false for production -- 	     	      <
 bool isDebugMode = false;
 bool pinsDetected = false;
+bool newPinDetectionMessage = false;
 
 // --- PIN DEFINITIONS ---
 #define SOIL_PIN   8  // Analog pin for the soil sensor
@@ -183,32 +185,41 @@ void setup() {
   printScreen(confirmSensors);
   delay(500);
 
+  //Sets up Static IP Configuration...
   WiFi.setHostname(HOSTNAME);
   WiFi.mode(WIFI_STA);
-
   if (!WiFi.config(LOCAL_IP, GATEWAY, SUBNET, PRIMARY_DNS, SECONDARY_DNS)) {
     char ipError[] = "Static IP configuration failed";
     printScreen(ipError);
     for(;;);
   }
 
-  // Connect to WiFi
+  // Connects to WiFi
   while (!WiFi.begin(ssid, pass)) {
     char wifiError[] = "Cannot connect to wifi and create a static IP Address";
     printScreen(wifiError);
     for(;;);
   }
+
+  //Sets up ESP-NOW Receiver Code
+  if(!setupEspNowReceiver()) {
+    for(;;);
+  };
+  char EspNowOk[] = "Setup of receiver code good :)";
+  printScreen(EspNowOk);
+  delay(2000);
   
+  //Bluynk Setup...
   Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
   if(!Blynk.connected()) {
     char errorBlynk[] = "ERROR: Blynk connection not working!";
     printScreen(errorBlynk);
     for(;;);
   }
-
   char BlynkOk[] = "Connection to Blynk is stable :)";
   printScreen(BlynkOk);
 
+  //Starts OTA Update Server...
   ElegantOTA.begin(&otaServer);
   otaServer.begin();
 
@@ -224,15 +235,10 @@ void loop() {
   Blynk.run();
   timer.run();
   ElegantOTA.loop();
-  static bool hasPrintedPinState = false;
-  static bool lastPinsDetected = false;
 
-  if (!hasPrintedPinState || pinsDetected != lastPinsDetected) {
-    hasPrintedPinState = true;
-    lastPinsDetected = pinsDetected;
+  // Option B: Copy it safely into your own modifiable char array
+  char macBuffer[18]; // 17 characters + 1 null terminator
+  WiFi.macAddress().toCharArray(macBuffer, sizeof(macBuffer));
+  printScreen(macBuffer); 
 
-    char pinStatus[32];
-    snprintf(pinStatus, sizeof(pinStatus), "Pins detected:\n%s", pinsDetected ? "YES" : "NO");
-    printScreen(pinStatus);
-  }
 }
