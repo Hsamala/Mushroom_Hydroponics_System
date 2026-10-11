@@ -9,6 +9,12 @@
 #define RELAY_ON  LOW
 #define RELAY_OFF HIGH
 
+enum GrowthStage {
+  PINNING,
+  FRUITING
+};
+
+extern GrowthStage currentStage;
 extern uint16_t co2Level;
 extern float temperature, humidity;
 extern int soilMoisture;

@@ -37,15 +37,9 @@ bool newPinDetectionMessage = false;
 #define I2C_SDA    6  // I2C SDA pin
 #define I2C_SCL    7  // I2C SCL pin
 
-// --- SENSOR CALIBRATION (IMPORTANT!) ---
-// You must find these values yourself for accurate readings
-// 1. Upload this code and check the Serial Monitor for the "Raw Value".
-// 2. Put the sensor in bone-dry soil and note the "Raw Value". This is your DRY_VALUE.
-// 3. Submerge the sensor in a glass of water. Note the "Raw Value". This is your WET_VALUE.
-// 4. Update the values below.
-// 5 . Also adjust on Blinkly for correct logging
-const int DRY_VALUE = 3300; // Placeholder: ESP32 raw value in dry soil (approx.)
-const int WET_VALUE = 1300; // Placeholder: ESP32 raw value in water (approx.)
+// --- SOIL SENSOR CALIBRATION ---
+const int DRY_VALUE = 3300;
+const int WET_VALUE = 1300;
 
 
 BlynkTimer timer;

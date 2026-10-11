@@ -1,5 +1,6 @@
 #include "RelayControl.h"
 
+GrowthStage currentStage = PINNING;
 
 void setupRelays() {
   pinMode(FAN_RELAY_PIN, OUTPUT);

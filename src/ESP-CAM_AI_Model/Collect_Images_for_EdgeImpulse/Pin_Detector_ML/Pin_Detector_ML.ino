@@ -12,36 +12,10 @@ IPAddress SUBNET(255, 255, 248, 0);
 IPAddress PRIMARY_DNS(8, 8, 8, 8);
 IPAddress SECONDARY_DNS(8, 8, 4, 4);
 
-#include <eloquent_esp32cam.h>
-//#include <eloquent_esp32cam/extra/esp32/wifi/sta.h>
-//#include <eloquent_esp32cam/viz/image_collection.h>
-
 #include "Transmitter.h"
-#include <WebServer.h>
-#include <ElegantOTA.h>
-
-using eloq::camera;
-//using eloq::wifi;
-//using eloq::viz::collectionServer;
-
-// Use a separate port for OTA so it does not conflict
-// with the image collection server.
-WebServer otaServer(8080);
+#include "CV_Model.h"
 
 bool pinDetectedState = false;
-unsigned long lastPinDetectionToggleMs = 0;
-const unsigned long PIN_DETECTION_TOGGLE_INTERVAL_MS = 5000;
-
-void updatePinDetectionToggle() {
-  unsigned long now = millis();
-  if (now - lastPinDetectionToggleMs < PIN_DETECTION_TOGGLE_INTERVAL_MS) {
-    return;
-  }
-  
-
-  lastPinDetectionToggleMs = now;
-  pinDetectedState = !pinDetectedState;
-}
 
 void setup() {
   delay(3000);
@@ -71,63 +45,24 @@ void setup() {
   Serial.println(WiFi.channel());
 
   setupEspNowTransmitter();
+  Serial.println("ESP-NOW OK");
 
-  /* Connect to WiFi
-  while (!wifi.connect().isOk()) {
-    Serial.println(wifi.exception.toString());
-    delay(1000);
-  } */
-
-  // Start OTA server on port 8080
-  ElegantOTA.begin(&otaServer);
-  otaServer.begin();
-
-
-  // Camera settings
-  camera.pinout.aithinker();
-  camera.brownout.disable();
-  camera.resolution.face();
-  camera.quality.high();
-
-  // Initialize camera
-  while (!camera.begin().isOk()) {
-    Serial.println(camera.exception.toString());
-    delay(1000);
+  if (ei_camera_init() == false) {
+        Serial.println("Failed to initialize Camera!\r\n");
+    }
+    else {
+        Serial.println("Camera initialized\r\n");
   }
 
-  // Start image collection server
-  //while (!collectionServer.begin().isOk()) {
-  //  Serial.println(collectionServer.exception.toString());
-  //  delay(1000);
-  //}
-
-  Serial.println("Camera OK");
-  Serial.println("WiFi OK");
-  //Serial.println("Image Collection Server OK");
-  Serial.println(pinDetectedState);
+  Serial.println("\nStarting anomoly detection in 2 seconds...\n");
+  delay(2000);
 
 }
 
 void loop() {
-  static bool testPinsDetected = false;
-  //Serial.println(pinDetectedState);
-
-  /*----- ESP-NOW Test Baseline ------ */
-  /*
-  static unsigned long lastSendMs = 0;
-
-  if (millis() - lastSendMs >= 5000) {
-    lastSendMs = millis();
-
-    testPinsDetected = !testPinsDetected;
-    sendPinsDetected(testPinsDetected);
-    Serial.print("Sent Pins Detected: ");
-    Serial.println(testPinsDetected);
-  } */
-
-  // Required by ElegantOTA & Handle OTA server requests
-  otaServer.handleClient();
-  ElegantOTA.loop();
+  if(runModelInference) {
+    Serial.println("Detected Anomoly");
+  }
 
   delay(10);
 }
