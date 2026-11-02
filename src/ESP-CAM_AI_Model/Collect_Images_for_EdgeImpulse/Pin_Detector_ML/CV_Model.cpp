@@ -1,5 +1,6 @@
 #include "CV_Model.h"
 #include "esp_camera.h"
+#include "Transmitter.h"
 
 #include <Fall_2026_Anomoly_Detection_V1_inferencing.h>
 #include "edge-impulse-sdk/dsp/image/image.hpp"
@@ -255,12 +256,14 @@ bool runModelInference() {
                 result.timing.dsp, result.timing.classification, result.timing.anomaly);
 
 #if EI_CLASSIFIER_HAS_VISUAL_ANOMALY
+    bool pinsDetected = false;
     ei_printf("Visual anomalies:\r\n");
     for (uint32_t i = 0; i < result.visual_ad_count; i++) {
         ei_impulse_result_bounding_box_t bb = result.visual_ad_grid_cells[i];
         if (bb.value == 0) {
             continue;
         }
+        pinsDetected = true;
         ei_printf("  %s (%f) [ x: %u, y: %u, width: %u, height: %u ]\r\n",
                 bb.label,
                 bb.value,
@@ -269,8 +272,9 @@ bool runModelInference() {
                 bb.width,
                 bb.height);
     }
+    sendPinsDetected(pinsDetected);
     free(snapshot_buf);
-    return true;
+    return pinsDetected;
 #endif
 
   free(snapshot_buf);

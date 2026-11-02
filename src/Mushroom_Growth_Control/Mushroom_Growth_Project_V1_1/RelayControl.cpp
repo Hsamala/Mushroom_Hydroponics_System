@@ -26,8 +26,36 @@ int calc_withinRange(T currentReading, T targetReading, T margin) {
 }
 
 void relayControl() {
+
+  // Switch growth stage when the vision system detects pins
+  if (pinsDetected) {
+    currentStage = FRUITING;
+  }
+  else {
+    currentStage = PINNING;
+  }
+
+  // Select control values based on growth stage
+  uint16_t co2Target;
+  uint16_t co2Margin;
+  float humidityTarget;
+  float humidityMargin;
+
+  if (currentStage == PINNING) {
+    co2Target = PINNING_CO2_TARGET;
+    co2Margin = PINNING_CO2_MARGIN;
+    humidityTarget = PINNING_HUMIDITY_TARGET;
+    humidityMargin = PINNING_HUMIDITY_MARGIN;
+  }
+  else {
+    co2Target = FRUITING_CO2_TARGET;
+    co2Margin = FRUITING_CO2_MARGIN;
+    humidityTarget = FRUITING_HUMIDITY_TARGET;
+    humidityMargin = FRUITING_HUMIDITY_MARGIN;
+  }
+
   // --- 1. CO2 LOGIC (Low Trigger: ON at Lower Limit) ---
-  int co2Event = calc_withinRange<unsigned int>(co2Level, 1000, 50); 
+  int co2Event = calc_withinRange<unsigned int>(co2Level, co2Target, co2Margin); 
   if (co2Event == 2) {
     digitalWrite(FAN_RELAY_PIN, RELAY_ON);
   }  
@@ -36,7 +64,7 @@ void relayControl() {
   }  
 
   // --- 2. MISTER LOGIC (Low Trigger: ON at Lower Limit) ---
-  int humEvent = calc_withinRange<float>(humidity, 93.0, 3.0); 
+  int humEvent = calc_withinRange<float>(humidity, humidityTarget, humidityMargin); 
   if (humEvent == 1) {
     digitalWrite(MISTER_PIN, RELAY_ON);
     digitalWrite(MISTER_PIN2, RELAY_ON);

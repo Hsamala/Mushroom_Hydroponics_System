@@ -3,8 +3,6 @@
 #define WIFI_PASS "12345678"
 #define HOSTNAME "esp32cam"
 
-#define FLASH_PIN 4
-
 // ---------- STATIC IP SETTINGS ------------
 IPAddress LOCAL_IP(10, 210, 249, 50);
 IPAddress GATEWAY(10, 210, 248, 1);
@@ -60,9 +58,12 @@ void setup() {
 }
 
 void loop() {
-  if(runModelInference) {
-    Serial.println("Detected Anomoly");
+  bool pinsDetected = runModelInference();
+  if (pinsDetected) {
+    Serial.println("Detected Anomaly / Pins!");
   }
-
-  delay(10);
+  else {
+    Serial.println("No anomaly detected");
+  }
+  delay(1000);
 }
