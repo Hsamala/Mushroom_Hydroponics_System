@@ -1,14 +1,7 @@
 // ---------- NETWORK INFORMATIOn ------------
-#define WIFI_SSID "Green2026"
-#define WIFI_PASS "12345678"
-#define HOSTNAME "esp32cam"
+#define WIFI_SSID "Velocity Wi-Fi"
+#define WIFI_PASS "pywihldg"
 
-// ---------- STATIC IP SETTINGS ------------
-IPAddress LOCAL_IP(10, 210, 249, 50);
-IPAddress GATEWAY(10, 210, 248, 1);
-IPAddress SUBNET(255, 255, 248, 0);
-IPAddress PRIMARY_DNS(8, 8, 8, 8);
-IPAddress SECONDARY_DNS(8, 8, 4, 4);
 
 #include "Transmitter.h"
 #include "CV_Model.h"
@@ -22,12 +15,7 @@ void setup() {
   Serial.println();
   Serial.println("___IMAGE COLLECTION SERVER WITH OTA___");
 
-  WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
-  WiFi.setHostname(HOSTNAME);
-  if (!WiFi.config(LOCAL_IP, GATEWAY, SUBNET, PRIMARY_DNS, SECONDARY_DNS)) {
-        Serial.println("Static IP configuration failed");
-  }
 
   Serial.print("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED) {
